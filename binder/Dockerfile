@@ -27,7 +27,7 @@ RUN conda install --quiet --yes \
     scipy \
     seaborn \
     && \
-    pip install tutorial-server &&\
+    pip install tutorial-server polymatheia &&\
     conda clean --all -f -y && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
