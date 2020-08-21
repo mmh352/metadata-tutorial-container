@@ -19,6 +19,8 @@ ENV PATH=$CONDA_DIR/bin:$PATH \
 USER $NB_UID
 WORKDIR $HOME
 
+COPY binder/jupyter_notebook_config.py $HOME/.jupyter/jupyter_notebook_config.py
+
 RUN conda install --quiet --yes \
     jupyter-server-proxy \
     pandas \
