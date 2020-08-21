@@ -1,64 +1,45 @@
-# ====================
-# Build the base image
-# ====================
+FROM jupyter/base-notebook
 
-FROM python:3.8-slim-buster as base
+ARG NB_USER="jovyan"
+ARG NB_UID="1000"
+ARG NB_GID="100"
 
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt update && \
-        apt dist-upgrade -y && \
-        apt install -y \
-            curl \
-            bzip2 \
-            git
+# Configure environment
+ENV CONDA_DIR=/opt/conda \
+    SHELL=/bin/bash \
+    NB_USER=$NB_USER \
+    NB_UID=$NB_UID \
+    NB_GID=$NB_GID \
+    LC_ALL=en_US.UTF-8 \
+    LANG=en_US.UTF-8 \
+    LANGUAGE=en_US.UTF-8
+ENV PATH=$CONDA_DIR/bin:$PATH \
+    HOME=/home/$NB_USER
 
+USER $NB_UID
+WORKDIR $HOME
 
-# =====================
-# Build the core system
-# =====================
-FROM base as system_setup
+RUN conda install --quiet --yes \
+    jupyter-server-proxy \
+    pandas \
+    scipy \
+    seaborn \
+    && \
+    pip install tutorial-server &&\
+    conda clean --all -f -y && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
 
-RUN pip install git+https://github.com/mmh352/tutorial-server.git
-COPY ./binder/entrypoint.sh /usr/bin/entrypoint.sh
-COPY ./binder/tutorial-server-config.ini /etc/ou_module/tutorial-server-config.ini
+RUN rm -rf $HOME/work && \
+    mkdir $HOME/workspace
 
+USER root
 
-# ====================
-# Setup the user stuff
-# ====================
+COPY binder/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
+RUN mkdir /etc/tutorial-server
+COPY binder/tutorial-server.ini /etc/tutorial-server/production.ini
 
-FROM system_setup as user_setup
+RUN fix-permissions /etc/jupyter/
 
-ARG NB_USER
-ARG NB_UID
-ENV USER ${NB_USER}
-ENV HOME /home/${NB_USER}
-
-RUN groupadd \
-        --gid ${NB_UID} \
-        ${NB_USER} && \
-    useradd \
-        --comment "Default user" \
-        --create-home \
-        --gid ${NB_UID} \
-        --no-log-init \
-        --shell /bin/bash \
-        --uid ${NB_UID} \
-        ${NB_USER}
-
-
-# =====================
-# Build the final image
-# =====================
-
-FROM user_setup
-
-ARG NB_USER
-ARG NB_UID
-ENV USER ${NB_USER}
-ENV HOME /home/${NB_USER}
-
-COPY --chown=${NB_UID}:${NB_UID} ./home ${HOME}
-
-ENTRYPOINT [ "/usr/bin/entrypoint.sh" ]
-CMD []
+USER $NB_UID
+WORKDIR $HOME
