@@ -17,6 +17,7 @@ jobs:
         username: mmh352
         password: ${{ secrets.DOCKERACCESSTOKEN }}
         repository: mmh352/metadata-tutorial
-        tag_with_sha: true
+        tags: latest
+        tag_with_ref: true
         dockerfile: binder/Dockerfile
         build_args: TS_CONFIG=tutorial-server-https.ini
