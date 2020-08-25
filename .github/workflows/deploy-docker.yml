@@ -1,0 +1,22 @@
+name: Docker Deployment
+
+on:
+  push:
+    branches: [ default ]
+
+jobs:
+  deploy-secure:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v1.1.0
+      with:
+        username: mmh352
+        password: ${{ secrets.DOCKERACCESSTOKEN }}
+        repository: mmh352/metadata-tutorial
+        tag_with_sha: true
+        dockerfile: binder/Dockerfile
+        build_args: TS_CONFIG=tutorial-server-https.ini
