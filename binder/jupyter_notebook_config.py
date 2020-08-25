@@ -1,3 +1,5 @@
+import os
+
 ## The default URL to redirect to from `/`
 #c.NotebookApp.default_url = '/tree'
 c.NotebookApp.default_url = '/tutorial'
@@ -17,6 +19,8 @@ c.NotebookApp.ip = '0.0.0.0'
 ## The directory to use for notebooks and kernels.
 #c.NotebookApp.notebook_dir = ''
 c.NotebookApp.notebook_dir = 'workspace'
+if not os.path.exists(c.NotebookApp.notebook_dir):
+    os.makedirs(c.NotebookApp.notebook_dir, exist_ok=True)
 
 ## Whether to open in a browser after starting. The specific browser used is
 #  platform dependent and determined by the python standard library `webbrowser`
