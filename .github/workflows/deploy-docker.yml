@@ -1,0 +1,40 @@
+name: Docker Deployment
+
+on:
+  push:
+    branches: [ default ]
+
+jobs:
+  deploy-secure:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build and push the mmh352/metadata-tutorial image
+      uses: docker/build-push-action@v1.1.0
+      with:
+        username: mmh352
+        password: ${{ secrets.DOCKERACCESSTOKEN }}
+        repository: mmh352/metadata-tutorial
+        tags: latest
+        tag_with_sha: true
+        dockerfile: binder/Dockerfile
+        build_args: TS_CONFIG=tutorial-server-https.ini
+
+  deploy-insecure:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build and push the mmh352/metadata-tutorial-local image
+      uses: docker/build-push-action@v1.1.0
+      with:
+        username: mmh352
+        password: ${{ secrets.DOCKERACCESSTOKEN }}
+        repository: mmh352/metadata-tutorial-local
+        tags: latest
+        tag_with_sha: true
+        dockerfile: binder/Dockerfile
+        build_args: TS_CONFIG=tutorial-server-http.ini
