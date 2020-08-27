@@ -42,6 +42,9 @@ c.MappingKernelManager.cull_idle_timeout = 1200
 #  cull timeout value.
 c.MappingKernelManager.cull_interval = 10
 
+## Shut down the kernel when the user logs out
+c.JupyterHub.shutdown_on_logout
+
 #-------------
 # Server Proxy
 #-------------
