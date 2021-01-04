@@ -1,4 +1,4 @@
-FROM jupyter/base-notebook:b2562c469cdd
+FROM jupyter/base-notebook:python-3.8.6
 
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
@@ -28,7 +28,7 @@ RUN conda install --quiet --yes \
     scipy \
     seaborn \
     && \
-    pip install "tutorial-server>=0.2.0" "polymatheia>=0.3.0" &&\
+    pip install "tutorial-server>=0.3.1" "polymatheia>=0.3.0" &&\
     conda clean --all -f -y && \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER

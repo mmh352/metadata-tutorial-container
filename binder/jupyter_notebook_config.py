@@ -51,7 +51,7 @@ c.JupyterHub.shutdown_on_logout
 
 c.ServerProxy.servers = {
   'tutorial': {
-    'command': ['pserve', '/etc/tutorial-server/production.ini', 'port={port}', 'base_url={base_url}', 'app_prefix=/tutorial'],
+    'command': ['python', '-m', 'tutorial_server', '--config=/etc/tutorial-server/production.ini', '--port={port}', 'basepath={base_url}'],
     'absolute_url': True,
     'timeout': 30
   }
