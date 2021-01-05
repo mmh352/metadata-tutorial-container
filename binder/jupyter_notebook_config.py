@@ -2,7 +2,7 @@ import os
 
 ## The default URL to redirect to from `/`
 #c.NotebookApp.default_url = '/tree'
-c.NotebookApp.default_url = '/lab'
+c.NotebookApp.default_url = '/tutorial'
 
 ## (bytes/sec) Maximum rate at which stream output can be sent on iopub before
 #  they are limited.
@@ -51,7 +51,7 @@ c.JupyterHub.shutdown_on_logout
 
 c.ServerProxy.servers = {
   'tutorial': {
-    'command': ['python', '-m', 'tutorial_server', '--config=/etc/tutorial-server/production.ini', '--port={port}', 'basepath={base_url}'],
+    'command': ['python', '-m', 'tutorial_server', '--config=/etc/tutorial-server/production.ini', '--port={port}', '--basepath={base_url}'],
     'absolute_url': True,
     'timeout': 30
   }
