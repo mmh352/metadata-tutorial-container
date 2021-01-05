@@ -2,7 +2,7 @@ name: Docker Deployment
 
 on:
   push:
-    branches: [ default ]
+    branches: [  ]
 
 jobs:
   deploy-secure:
