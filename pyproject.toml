@@ -2,7 +2,7 @@
 name = "metadata-tutorial-container"
 version = "0.1.0"
 description = ""
-authors = ["Mark <mark.hall@work.room3b.eu>"]
+authors = ["Mark <mark.hall@open.ac.uk>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
