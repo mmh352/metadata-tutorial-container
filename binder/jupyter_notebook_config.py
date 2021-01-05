@@ -51,8 +51,7 @@ c.JupyterHub.shutdown_on_logout
 
 c.ServerProxy.servers = {
   'tutorial': {
-    #'command': ['python', '-m', 'tutorial_server', '--config=/etc/tutorial-server/production.ini', '--port={port}', 'basepath={base_url}'],
-    'command': ['touch', '/home/jovyan/workspace/testing.txt']
+    'command': ['python', '-m', 'tutorial_server', '--config=/etc/tutorial-server/production.ini', '--port={port}', 'basepath={base_url}'],
     'absolute_url': True,
     'timeout': 30
   }
