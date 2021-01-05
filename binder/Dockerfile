@@ -3,7 +3,6 @@ FROM jupyter/base-notebook:python-3.8.6
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
 ARG NB_GID="100"
-ARG TS_CONFIG="tutorial-server-https.ini"
 
 # Configure environment
 ENV CONDA_DIR=/opt/conda \
@@ -40,7 +39,7 @@ USER root
 
 COPY binder/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
 RUN mkdir /etc/tutorial-server
-COPY binder/${TS_CONFIG} /etc/tutorial-server/production.ini
+COPY binder/tutorial-server.ini /etc/tutorial-server/production.ini
 
 RUN fix-permissions /etc/jupyter/
 
